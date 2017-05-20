@@ -33,7 +33,7 @@ for i in doc_set:
 
     # remove stop words from tokens
     stopped_tokens = [i for i in tokens if not i in en_stop]
-
+    # print(stopped_tokens)
     # stem tokens
     stemmed_tokens = [p_stemmer.stem(i) for i in stopped_tokens]
 
@@ -48,3 +48,4 @@ corpus = [dictionary.doc2bow(text) for text in texts]
 
 # generate LDA model
 ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=2, id2word=dictionary, passes=20)
+print(ldamodel.print_topics(num_topics=2, num_words=4))
