@@ -6,10 +6,23 @@ def parseRSS(source):
 
     items = []
     for article in root.iter('item'):
+        title = article.find('title').text
+        source = article.find('link').text
+        body = article.find('description').text
+        date = article.find('pubDate')
+        if date is None:
+            date = 'UNKNOWN'
+        else:
+            date = date.text
+        tags = []
+
         item = {}
-        item['title'] = article.find('title').text
-        item['source'] = article.find('link').text
-        item['body'] = article.find('description').text
+        item['title'] = title
+        item['source'] = source
+        item['body'] = body
+        item['date'] = date
+        item['tags'] = tags
+
         items.append(item)
 
     articles = {}
@@ -18,3 +31,4 @@ def parseRSS(source):
 
 if __name__ == '__main__':
     print("in main")
+
