@@ -1,6 +1,5 @@
 import requests
-import json
-from dump_to_articles import XMLParser
+from parsers import parseRSS
 
 payload = {
     'articles' : [
@@ -21,7 +20,7 @@ payload = {
     ]
 }
 
-payload = XMLParser()
+payload = parseRSS('sample_rss_feeds/sample_rss_feed_1.xml')
 print(payload)
 
 r = requests.post('http://ec2-13-58-7-84.us-east-2.compute.amazonaws.com:8080/articles', json=payload)

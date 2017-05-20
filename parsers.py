@@ -1,8 +1,8 @@
 import xml.etree.ElementTree as ET
 import json
 
-def XMLParser():
-    tree = ET.parse('sample_rss_feeds/sample_rss_feed_1.xml')
+def parseRSS(source):
+    tree = ET.parse(source)
     root = tree.getroot()
 
     items = []
