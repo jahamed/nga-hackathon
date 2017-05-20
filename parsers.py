@@ -1,5 +1,4 @@
 import xml.etree.ElementTree as ET
-import json
 
 def parseRSS(source):
     tree = ET.parse(source)
@@ -15,8 +14,6 @@ def parseRSS(source):
 
     articles = {}
     articles['articles'] = items
-    json_data = json.dumps(articles)
-    # print(json_data)
     return articles
 
 if __name__ == '__main__':
