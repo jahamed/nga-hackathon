@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 
+# Works for rss specification 2.0
 def parseRSS(source):
     tree = ET.parse(source)
     root = tree.getroot()
