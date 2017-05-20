@@ -1,36 +1,21 @@
 import xml.etree.ElementTree as ET
+import json
 
 tree = ET.parse('sample_rss_feeds/sample_rss_feed_1.xml')
 root = tree.getroot()
 
-
-
-# def functionname( parameters ):
-#    "function_docstring"
-#    function_suite
-#    return [expression]
-
-
-articles = []
-
+items = []
 for article in root.iter('item'):
     title = article.find('title')
     link = article.find('link')
     description = article.find('description')
-    tmp = {}
-    tmp[title.tag] = title.text
-    tmp[link.tag] = link.text
-    tmp[description.tag] = description.text
-    articles.append(tmp)
+    item = {}
+    item[title.tag] = title.text
+    item[link.tag] = link.text
+    item[description.tag] = description.text
+    items.append(item)
 
-print(items)
-
-# Building JSON
-# data = {}
-# data['key'] = 'value'
-# json_data = json.dumps(data)
-
-
-# xmlstr = ET.tostring(root, encoding='utf8', method='xml')
-# print (xmlstr)
-
+articles = {}
+articles['articles'] = items
+json_data = json.dumps(articles)
+print(json_data)
