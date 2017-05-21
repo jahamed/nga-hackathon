@@ -13,6 +13,8 @@ def parseRSS(url):
         source = article.find('link').text
         body = article.find('description').text
         date = article.find('pubDate')
+        summary = article.find('summary')
+
         if date is None:
             date = 'UNKNOWN'
         else:
@@ -25,6 +27,7 @@ def parseRSS(url):
         item['body'] = body
         item['date'] = date
         item['tags'] = tags
+        item['summary'] = summary
 
         items.append(item)
 
