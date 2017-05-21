@@ -37,6 +37,5 @@ def parseCNN(url):
     return body
 
 if __name__ == '__main__':
-    print("In main for scraper.py")
     parseFoxNews("http://www.foxnews.com/politics/2017/05/20/gop-candidate-running-for-governor-presses-mcauliffe-on-climate-change.html?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+foxnews%2Fpolitics+%28Internal+-+Politics+-+Text%29")
     # parseCNN("http://www.cnn.com/2017/05/20/middleeast/iran-rouhani-election/index.html?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+rss%2Fcnn_world+%28RSS%3A+CNN+-+World%29")

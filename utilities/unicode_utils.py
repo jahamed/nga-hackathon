@@ -1,3 +1,4 @@
+# Quick function to remove unicode characters like microsoft stylized quotes from scraped data
 def replace_unicode_chars (text):
     text = text.replace(u"\u2018", "'") \
             .replace(u"\u2019", "'") \
