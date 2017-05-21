@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
-import urllib2
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
 
 # Works for rss specification 2.0
 def parseRSS(source):
@@ -32,10 +33,10 @@ def parseRSS(source):
     return articles
 
 def downloadrss(url):
-    s = urllib2.urlopen(url)
+    s = urlopen(url)
     contents = s.read()
     filename = filenameFromUrl(url)
-    file = open(filename, 'w')
+    file = open(filename, 'wb')
     file.write(contents)
     file.close()
 
@@ -43,11 +44,25 @@ def filenameFromUrl(url):
     domain = url.split('.')[1]
     tail = url.split('/')
     tail = [x for x in tail if x != '']
+    tail = tail[-1]
     filename = domain + "_" + tail + ".xml"
     return filename
 
+def parseFoxNews(url):
+    page = urlopen(url)
+    soup = BeautifulSoup(page, "html.parser")
+
+    article_body = soup.body.find('div', attrs={'class': 'article-body'})
+    paragraphs = article_body.findAll('p')
+    body = []
+    for paragraph in paragraphs:
+        body.append(paragraph.getText())
+    print(body)
+    return body
 
 if __name__ == '__main__':
     print("in main")
-    url = "http://www.foxnews.com/about/rss/"
+    # url = "http://feeds.foxnews.com/foxnews/politics"
+    # downloadrss(url)
+    parseFoxNews("http://www.foxnews.com/politics/2017/05/20/gop-candidate-running-for-governor-presses-mcauliffe-on-climate-change.html?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+foxnews%2Fpolitics+%28Internal+-+Politics+-+Text%29")
 
