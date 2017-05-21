@@ -1,6 +1,8 @@
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
 from scraper import parseFoxNews
+from utilities.unicode_utils import replace_unicode_chars
+from summarizer import *
 
 # Works for rss specification 2.0
 def parseRSS(url):
@@ -10,19 +12,21 @@ def parseRSS(url):
 
     items = []
     for article in root.iter('item'):
-        title = article.find('title').text
+        title = replace_unicode_chars(article.find('title').text)
         source = article.find('link').text
-        description = article.find('description').text
+        description = replace_unicode_chars(article.find('description').text)
         date = article.find('pubDate')
-        summary = article.find('summary')
 
         if date is None:
             date = 'UNKNOWN'
         else:
             date = date.text
-        tags = []
 
         body = parseFoxNews(source)
+        summary = generate_summary(body)
+
+        tags = []
+        tags = generate_tags(body)
 
         item = {}
         item['title'] = title
@@ -56,14 +60,10 @@ def filenameFromUrl(url):
     filename = domain + "_" + tail + ".xml"
     return filename
 
-
-
 if __name__ == '__main__':
-    # print("in main")
     url = "http://feeds.foxnews.com/foxnews/politics"
     str = parseRSS(url)
     import json
-    # print(str)
     print(json.dumps(str))
 
 
