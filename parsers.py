@@ -1,12 +1,12 @@
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
-from scraper import parseFoxNews
+from scraper import parseFoxNews, parseReuters
 from utilities.unicode_utils import replace_unicode_chars
 from summarizer import *
 
 # Works for rss specification 2.0
 # Transform RSS Feed (in XML) into JSON blob containing article summary, tags, etc.
-def parseRSS(source):
+def parseRSS(source, news_source):
     tree = ET.parse(source)
     root = tree.getroot()
 
@@ -22,7 +22,11 @@ def parseRSS(source):
         else:
             date = date.text
 
-        body = parseFoxNews(source)
+        if news_source == "Fox News":
+            body = parseFoxNews(source)
+        elif news_source == "Reuters":
+            body = parseReuters(source)
+
         summary = generate_summary(body)
 
         tags = generate_tags(body)
@@ -44,8 +48,11 @@ def parseRSS(source):
 
 def parseFoxRSS(fox_rss_url):
     file = downloadrss(fox_rss_url)
-    return parseRSS(file)
+    return parseRSS(file, "Fox News")
 
+def parseReutersRSS(reuters_rss_url):
+    file = downloadrss(reuters_rss_url)
+    return parseRSS(file, "Reuters")
 
 # Generate an rss .xml file for a rss feed
 def downloadrss(url):
