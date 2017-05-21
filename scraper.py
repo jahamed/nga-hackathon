@@ -8,12 +8,13 @@ def parseFoxNews(url):
 
     article_body = soup.body.find('div', attrs={'class': 'article-body'})
     paragraphs = article_body.findAll('p')
+
     body = []
 
     for paragraph in paragraphs:
         body.append(paragraph.getText())
 
-    body = ' '.join(body)
+    body = '\n'.join(body)
     body = replace_unicode_chars(body)
 
     return body
@@ -30,7 +31,7 @@ def parseCNN(url):
     for paragraph in paragraphs:
         body.append(paragraph.getText())
 
-    body = ' '.join(body)
+    body = '\n'.join(body)
     body = replace_unicode_chars(body)
 
     return body
