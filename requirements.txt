@@ -1,0 +1,4 @@
+beautifulsoup4==4.6.0
+gensim==2.1.0
+requests==2.14.2
+requests-file==1.4.2
