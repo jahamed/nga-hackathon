@@ -1,6 +1,6 @@
 from urllib.request import urlopen
-from bs4 import BeautifulSoup
-
+from bs4 import BeautifulSoup, UnicodeDammit
+from utilities import ascii_dammit
 
 def parseFoxNews(url):
     page = urlopen(url)
@@ -14,7 +14,10 @@ def parseFoxNews(url):
         body.append(paragraph.getText())
     body = ' '.join(body)
     tmp = body.encode('ascii', 'replace')
-    return tmp
+    # print(body)
+    # body = UnicodeDammit(body, ["windows-1252"], smart_quotes_to="ascii").unicode_markup
+    body = remove_smart_quotes(body)
+    return body
 
 def parseCNN(url):
     page = urlopen(url)
@@ -37,6 +40,15 @@ def replaceBadStrings(strings):
         new_strings.append(new_string)
     return new_strings
 
+def remove_smart_quotes (text):
+    text = text.replace(u"\u2018", "'") \
+            .replace(u"\u2019", "'") \
+            .replace(u"\u201c", '"') \
+            .replace(u"\u201d", '"') \
+            .replace(u"\u2013", '') \
+            .replace(u"\u00a0", '')
+
+    return text
 
 
 if __name__ == '__main__':
