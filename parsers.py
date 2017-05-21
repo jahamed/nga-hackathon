@@ -1,10 +1,10 @@
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
-from bs4 import BeautifulSoup
 
 # Works for rss specification 2.0
-def parseRSS(source):
-    tree = ET.parse(source)
+def parseRSS(url):
+    file = downloadrss(url)
+    tree = ET.parse(file)
     root = tree.getroot()
 
     items = []
@@ -39,6 +39,7 @@ def downloadrss(url):
     file = open(filename, 'wb')
     file.write(contents)
     file.close()
+    return filename
 
 def filenameFromUrl(url):
     domain = url.split('.')[1]
@@ -48,21 +49,11 @@ def filenameFromUrl(url):
     filename = domain + "_" + tail + ".xml"
     return filename
 
-def parseFoxNews(url):
-    page = urlopen(url)
-    soup = BeautifulSoup(page, "html.parser")
 
-    article_body = soup.body.find('div', attrs={'class': 'article-body'})
-    paragraphs = article_body.findAll('p')
-    body = []
-    for paragraph in paragraphs:
-        body.append(paragraph.getText())
-    print(body)
-    return body
 
 if __name__ == '__main__':
     print("in main")
     # url = "http://feeds.foxnews.com/foxnews/politics"
     # downloadrss(url)
-    parseFoxNews("http://www.foxnews.com/politics/2017/05/20/gop-candidate-running-for-governor-presses-mcauliffe-on-climate-change.html?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+foxnews%2Fpolitics+%28Internal+-+Politics+-+Text%29")
+
 
