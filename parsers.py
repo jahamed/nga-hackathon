@@ -5,10 +5,9 @@ from utilities.unicode_utils import replace_unicode_chars
 from summarizer import *
 
 # Works for rss specification 2.0
-# Transform RSS Feed into JSON blob containing article summary, tags, etc.
-def parseRSS(url):
-    file = downloadrss(url)
-    tree = ET.parse(file)
+# Transform RSS Feed (in XML) into JSON blob containing article summary, tags, etc.
+def parseRSS(source):
+    tree = ET.parse(source)
     root = tree.getroot()
 
     items = []
@@ -43,6 +42,11 @@ def parseRSS(url):
     articles['articles'] = items
     return articles
 
+def parseFoxRSS(fox_rss_url):
+    file = downloadrss(fox_rss_url)
+    return parseRSS(file)
+
+
 # Generate an rss .xml file for a rss feed
 def downloadrss(url):
     s = urlopen(url)
@@ -63,8 +67,8 @@ def filenameFromUrl(url):
 
 if __name__ == '__main__':
     # Test of parsing and scraping a news feed into json
-    feed_url = "http://feeds.foxnews.com/foxnews/politics"
-    to_return = parseRSS(feed_url)
+    fox_url = "http://feeds.foxnews.com/foxnews/politics"
+    to_return = parseFoxRSS(fox_url)
     import json
     print(json.dumps(to_return))
 
