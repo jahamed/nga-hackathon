@@ -14,7 +14,7 @@ def parseFoxNews(url):
     for paragraph in paragraphs:
         body.append(paragraph.getText())
 
-    body = '\n'.join(body)
+    body = '\n\n'.join(body)
     body = replace_unicode_chars(body)
 
     return body
@@ -31,7 +31,7 @@ def parseCNN(url):
     for paragraph in paragraphs:
         body.append(paragraph.getText())
 
-    body = '\n'.join(body)
+    body = '\n\n'.join(body)
     body = replace_unicode_chars(body)
 
     return body
