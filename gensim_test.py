@@ -30,4 +30,4 @@ summary = summarize(text, ratio=0.2)
 # summary = summarize(text, word_count=200)
 # print(summary)
 
-print(keywords(summary, ratio=0.2))
+print(keywords(text, lemmatize=True, words=4, scores=False))
