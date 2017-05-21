@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 
 def parseFoxNews(url):
     page = urlopen(url)
+    # soup = BeautifulSoup(page, "html.parser", from_encoding='utf-8')
     soup = BeautifulSoup(page, "html.parser")
 
     article_body = soup.body.find('div', attrs={'class': 'article-body'})
@@ -12,7 +13,8 @@ def parseFoxNews(url):
     for paragraph in paragraphs:
         body.append(paragraph.getText())
     body = ' '.join(body)
-    return body
+    tmp = body.encode('ascii', 'replace')
+    return tmp
 
 def parseCNN(url):
     page = urlopen(url)
