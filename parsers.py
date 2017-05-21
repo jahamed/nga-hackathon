@@ -63,7 +63,8 @@ def filenameFromUrl(url):
     tail = [x for x in tail if x != '']
     tail = tail[-1]
     filename = domain + "_" + tail + ".xml"
-    return filename
+    relative_path = "rss_feeds/"
+    return relative_path + filename
 
 if __name__ == '__main__':
     # Test of parsing and scraping a news feed into json
