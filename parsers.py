@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
+from scraper import parseFoxNews
 
 # Works for rss specification 2.0
 def parseRSS(url):
@@ -11,7 +12,7 @@ def parseRSS(url):
     for article in root.iter('item'):
         title = article.find('title').text
         source = article.find('link').text
-        body = article.find('description').text
+        description = article.find('description').text
         date = article.find('pubDate')
         summary = article.find('summary')
 
@@ -21,9 +22,12 @@ def parseRSS(url):
             date = date.text
         tags = []
 
+        body = parseFoxNews(source)
+
         item = {}
         item['title'] = title
         item['source'] = source
+        item['description'] = description
         item['body'] = body
         item['date'] = date
         item['tags'] = tags
@@ -56,7 +60,9 @@ def filenameFromUrl(url):
 
 if __name__ == '__main__':
     print("in main")
-    # url = "http://feeds.foxnews.com/foxnews/politics"
-    # downloadrss(url)
+    url = "http://feeds.foxnews.com/foxnews/politics"
+    str = parseRSS(url)
+    import json
+    print(json.dumps(str))
 
 
