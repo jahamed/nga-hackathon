@@ -30,8 +30,8 @@ def parseRSS(url):
         item['description'] = description
         item['body'] = body
         item['date'] = date
-        item['tags'] = tags
         item['summary'] = summary
+        item['tags'] = tags
 
         items.append(item)
 
@@ -59,10 +59,11 @@ def filenameFromUrl(url):
 
 
 if __name__ == '__main__':
-    print("in main")
+    # print("in main")
     url = "http://feeds.foxnews.com/foxnews/politics"
     str = parseRSS(url)
     import json
+    # print(str)
     print(json.dumps(str))
 
 

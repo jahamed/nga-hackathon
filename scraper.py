@@ -1,22 +1,21 @@
 from urllib.request import urlopen
-from bs4 import BeautifulSoup, UnicodeDammit
-from utilities import ascii_dammit
+from bs4 import BeautifulSoup
+from utilities.unicode_utils import replace_unicode_chars
 
 def parseFoxNews(url):
     page = urlopen(url)
-    # soup = BeautifulSoup(page, "html.parser", from_encoding='utf-8')
     soup = BeautifulSoup(page, "html.parser")
 
     article_body = soup.body.find('div', attrs={'class': 'article-body'})
     paragraphs = article_body.findAll('p')
     body = []
+
     for paragraph in paragraphs:
         body.append(paragraph.getText())
+
     body = ' '.join(body)
-    tmp = body.encode('ascii', 'replace')
-    # print(body)
-    # body = UnicodeDammit(body, ["windows-1252"], smart_quotes_to="ascii").unicode_markup
-    body = remove_smart_quotes(body)
+    body = replace_unicode_chars(body)
+
     return body
 
 def parseCNN(url):
@@ -27,29 +26,14 @@ def parseCNN(url):
     div = section.find('div', attrs={'class': 'l-container'})
     paragraphs = div.findAll('div', attrs={'class': ['zn-body__paragraph', 'el__leafmedia']})
     body = []
+
     for paragraph in paragraphs:
         body.append(paragraph.getText())
+
+    body = ' '.join(body)
+    body = replace_unicode_chars(body)
+
     return body
-
-# Doesn't work
-def replaceBadStrings(strings):
-    return strings # remove this if you want to edit
-    new_strings = []
-    for string in strings:
-        new_string = string.replace('\\xa0', ' ')
-        new_strings.append(new_string)
-    return new_strings
-
-def remove_smart_quotes (text):
-    text = text.replace(u"\u2018", "'") \
-            .replace(u"\u2019", "'") \
-            .replace(u"\u201c", '"') \
-            .replace(u"\u201d", '"') \
-            .replace(u"\u2013", '') \
-            .replace(u"\u00a0", '')
-
-    return text
-
 
 if __name__ == '__main__':
     print("In main for scraper.py")
